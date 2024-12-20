@@ -62,7 +62,7 @@
                     <div class="amount-wrapper">
                         <div class="amount">
                             <span>Subtotal</span>
-                            <span id="subtotal">
+                            <span id="total-sub-card">
                                 ${{ number_format(array_sum(array_map(function($product) { return $product['price'] * $product['quantity']; }, $cart)), 2) }}
                             </span>
                         </div>
@@ -73,7 +73,7 @@
 
                         <div class="amount total">
                             <span>Total</span>
-                            <span id="total">
+                            <span id="total-price">
                                 ${{ number_format(
                 array_sum(array_map(function($product) { return $product['price'] * $product['quantity']; }, $cart)) + 2.05, 2) }}
                             </span>
@@ -178,7 +178,8 @@
             const productId = this.dataset.id;
             const action = this.classList.contains('increase') ? 1 : -1;
             const quantityElement = document.getElementById(`quantity-${productId}`);
-            const newQuantity = parseInt(quantityElement.innerText) + action;
+            let newQuantity = parseInt(quantityElement.innerText) + action;
+
             if (newQuantity >= 0) {
                 fetch('/cart/update-quantity', {
                         method: 'POST',
@@ -194,30 +195,79 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
+                            console.log(data);
+                            const total_sub = document.getElementById("total-sub");
+                            const subtotal = document.getElementById("total-sub-card");
+                            const price = document.getElementById("total-price");
+
+                            subtotal.innerHTML = "$" + data.subtotal.toFixed(2);
+
                             if (newQuantity === 0) {
                                 const productItem = document.querySelector(`.product-item[data-id="${productId}"]`);
                                 if (productItem) {
                                     productItem.remove();
                                 }
+
+
                             } else {
                                 quantityElement.innerText = newQuantity;
-
                                 const priceElement = document.querySelector(`.price[data-id="${productId}"]`);
-                                priceElement.innerText = (data.cart[productId].price * newQuantity).toFixed(2);
+                                priceElement.innerText = (data.cart[productId].price * newQuantity).toFixed(2); // Update the price
                             }
+
+                            const cart_ul = document.getElementById("cart-ul");
+                            const total = document.getElementById("total-card");
+
+
+                            total.innerHTML = data.totalQuantity;
+
+
+                            let cartHTML = '';
+
+                            Object.keys(data.cart).forEach(function(key) {
+                                const element = data.cart[key];
+
+
+                                cartHTML += `
+                <li class="panel-item">
+                    <a href="http://foodorder.com/product_details/${key}" class="panel-card">
+                        <figure class="item-banner">
+                            <img src="${element.image}" width="46" height="46" loading="lazy" alt="${element.name}">
+                        </figure>
+                        <div>
+                            <p class="item-title">${element.name}</p>
+                            <span class="item-value">${(element.price * element.quantity).toFixed(2)}$</span>
+                            <span class="item-amount">x${element.quantity}</span>
+                        </div>
+                    </a>
+                </li>
+            `;
+                            });
+
+
+                            cart_ul.innerHTML = '';
+
+
+                            cart_ul.innerHTML = cartHTML;
+                            total_sub.innerHTML = "$" + data.subtotal.toFixed(2);
+                            total.innerHTML = data.totalProducts;
+                            price.innerHTML = "$" + (data.subtotal + 2.05).toFixed(2);
+
                         } else {
                             alert('Failed to update cart');
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => console.error('Error:', error)); // Handle errors
             }
         });
     });
+
 
     $(document).ready(function() {
         $('#apply-discount').on('click', function() {
             var discountToken = $('#discount-token').val();
             if (discountToken) {
+
                 $.ajax({
                     url: "{{ route('apply_discount') }}",
                     method: 'POST',
@@ -227,9 +277,9 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Cập nhật giá sản phẩm và tổng giá nếu mã giảm giá hợp lệ
-                            $('#subtotal').text('$' + response.new_subtotal);
-                            $('#total').text('$' + response.new_total);
+
+                            $('#total-sub-card').text('$' + response.new_subtotal);
+                            $('#total-price').text('$' + response.new_total);
                             alert('Áp dụng thành công voucher!');
                         } else {
                             alert('Voucher không tồn tại!');

@@ -14,7 +14,7 @@
          <form id="filterForm" method="get" onsubmit="handleFormSubmit(event)">
              <ul class="filter-list">
                  <li>
-                     <button type="button" class="filter-btn active" value="all" onclick="handleCategoryClick(event)">All</button>
+                     <button type="button" class="filter-btn active" value="0" onclick="handleCategoryClick(event)">All</button>
                  </li>
                  @foreach ($categories as $category)
                  <li>
@@ -74,8 +74,8 @@
 
          $(event.target).addClass('active');
 
-
          const categoryId = event.target.value;
+         console.log(categoryId);
          fetchProductsByCategory(categoryId);
      }
 
@@ -89,9 +89,12 @@
              success: function(response) {
                  $('#productList').empty();
                  response.products.forEach(function(product) {
-                     const discountedPrice = product.discount > 0 ?
-                         (product.price - (product.price * product.discount / 100)).toFixed(2) :
-                         product.price.toFixed(2);
+                    const discountedPrice = (product.discount > 0) 
+    ? (new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        .format(parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.discount) / 100)))
+    : new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        .format(parseFloat(product.price));
+
                      const url = "http://foodorder.com/storage/";
                      $('#productList').append(`
                         <li class="food-menu-card">

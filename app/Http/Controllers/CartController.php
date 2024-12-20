@@ -26,10 +26,18 @@ class CartController extends Controller
                 'image' => $image
             ];
         }
-
         session()->put('cart', $cart); // Lưu giỏ hàng vào session
+        $totalProducts = count($cart);
 
-        return response()->json(['success' => true, 'cart' => $cart]);
+        $subtotal = array_sum(array_map(function ($product) {
+            return $product['price'] * $product['quantity'];
+        }, $cart));
+        return response()->json([
+            'success' => true,
+            'cart' => $cart,
+            'totalProducts' => $totalProducts,
+            'subtotal' => $subtotal
+        ]);
     }
 
 
@@ -50,7 +58,20 @@ class CartController extends Controller
             }
 
             session()->put('cart', $cart);
-            return response()->json(['success' => true, 'cart' => $cart]);
+            $totalProducts = count($cart);
+
+            $subtotal = array_sum(array_map(function ($product) {
+                return $product['price'] * $product['quantity'];
+            }, array: $cart));
+
+
+
+            return response()->json([
+                'success' => true,
+                'cart' => $cart,
+                'totalProducts' => $totalProducts,
+                'subtotal' => $subtotal
+            ]);
         }
 
         return response()->json(['success' => false, 'message' => 'Product not found in cart']);

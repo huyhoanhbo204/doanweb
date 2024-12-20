@@ -12,26 +12,41 @@ class HomeController extends Controller
 
     private function getCategoriesAndProducts(Request $request, $takeProducts = 6)
     {
+
         $categories = Category::where('status', 'active')->take(4)->get();
-        $categoryId = $request->query('categoryId', 'all');
+
+
+        $categoryId = $request->query('categoryId', '0');
+
 
         $productsQuery = Product::where('products.status', 'active')
             ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'categories.name as category_name')
-            ->take($takeProducts);
+            ->select('products.*', 'categories.name as category_name');
 
-        if ($categoryId !== 'all') {
-            $productsQuery->where('products.category_id', $categoryId);
+
+        if ($categoryId > 0) {
+            $productsQuery->where('products.category_id', $categoryId)
+                ->take($takeProducts);
+        } elseif ($categoryId == 0) {
+            $productsQuery->take($takeProducts);
+        } elseif ($categoryId < 0) {
+            $productsQuery->take(PHP_INT_MAX);
         }
 
         $products = $productsQuery->get();
+
         $cart = session()->get('cart', []);
+
         return [
             'categories' => $categories,
             'products' => $products,
             'cart' => $cart
         ];
     }
+
+
+
+
 
     public function index(Request $request)
     {
@@ -62,8 +77,8 @@ class HomeController extends Controller
 
     public function product(Request $request)
     {
-        // Lấy danh mục, sản phẩm và giỏ hàng
-        $data = $this->getCategoriesAndProducts($request);
+
+        $data = $this->getCategoriesAndProducts($request, 30);
 
         if ($request->ajax()) {
             return response()->json([
