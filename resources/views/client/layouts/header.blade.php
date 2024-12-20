@@ -30,23 +30,17 @@
                         <a href="./index.html" class="navbar-link">Blog</a>
                     </li>
                     <li>
-                        <a href="./index.html" class="navbar-link">Products</a>
+                        <a href="{{route('product')}}" class="navbar-link">Products</a>
                     </li>
                     <li>
                         <a href="./index.html" class="navbar-link">Contact</a>
                     </li>
+                    <li>
+                        <a href="sign_in.php" class="btn btn-fill">Login</a>
+                    </li>
                 </ul>
-                <div class="navbar-wrapper">
-                    <a href="sign_in.php" class="btn btn-fill">Login</a>
-                </div>
-                <?php
-                if (!isset($_SESSION['session_id'])) {
-                    echo '<div class="navbar-wrapper">';
-                    echo '<a href="sign_in.php" class="btn btn-fill">Login</a>';
-                    echo '</div>';
-                }
 
-                ?>
+
             </nav>
         </div>
 
@@ -135,69 +129,41 @@
                 <button class="header-action-btn cart" aria-label="Open shopping cart" data-panel-btn="cart">
                     <ion-icon class="basket-outline" name="basket-outline"></ion-icon>
                     <ion-icon class="basket" name="basket"></ion-icon>
-
-                    <data value="2" class="btn-badge">02</data>
+                    <data value="2" class="btn-badge">{{Count($cart)}}</data>
                 </button>
                 <div class="side-panel cart" data-side-panel="cart">
                     <ul class="panel-list">
+                        @foreach ($cart as $id => $product)
                         <li class="panel-item">
-                            <a href="./product-details.html" class="panel-card">
+                            <a href="{{ route('product_details', ['id' => $id]) }}" class="panel-card">
                                 <figure class="item-banner">
-                                    <img src="{{asset('client/assets/images/food-menu-1.png')}}" width="46" height="46" loading="lazy" alt="seafood 1">
+                                    <img src="{{ $product['image'] }}" width="46" height="46" loading="lazy" alt="fried chicken 1">
                                 </figure>
-
                                 <div>
-                                    <p class="item-title">Seafood 1</p>
-                                    <span class="item-value">12$</span>
-                                    <span class="item-amount">x1</span>
+                                    <p class="item-title">{{ $product['name'] }}</p>
+                                    <span class="item-value">{{ number_format($product['price'] * $product['quantity'], 2) }}$</span>
+                                    <span class="item-amount">x{{ $product['quantity'] }}</span>
                                 </div>
-                            </a>
-                            <button class="item-remove-btn">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                        </li>
-                        <li class="panel-item">
-                            <a href="./product-details.html" class="panel-card">
-                                <figure class="item-banner">
-                                    <img src="{{asset('client/assets/images/food-menu-2.png')}}" width="46" height="46" loading="lazy" alt="meat 1">
-                                </figure>
 
-                                <div>
-                                    <p class="item-title">Meat 1</p>
-                                    <span class="item-value">10$</span>
-                                    <span class="item-amount">x1</span>
-                                </div>
-                            </a>
-                            <button class="item-remove-btn">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
+                               
                         </li>
-                        <li class="panel-item">
-                            <a href="./product-details.html" class="panel-card">
-                                <figure class="item-banner">
-                                    <img src="{{asset('client/assets/images/food-menu-3.png')}}" width="46" height="46" loading="lazy" alt="fried chicken 1">
-                                </figure>
-
-                                <div>
-                                    <p class="item-title">Fried Chicken 1</p>
-                                    <span class="item-value">9.3$</span>
-                                    <span class="item-amount">x1</span>
-                                </div>
-                            </a>
-                            <button class="item-remove-btn">
-                                <ion-icon name="close-outline"></ion-icon>
-                            </button>
-                        </li>
+                        </a>
+                        @endforeach
                     </ul>
                     <div class="subtotal">
                         <p class="subtotal-text">Subtotal:</p>
-                        <data value="696" class="subtotal-value">
-                            696$
+                        <data value="{{ array_sum(array_map(function($product) { return $product['price'] * $product['quantity']; }, $cart)) }}" class="subtotal-value">
+                            ${{ number_format(array_sum(array_map(function($product) { return $product['price'] * $product['quantity']; }, $cart)), 2) }}
                         </data>
                     </div>
-                    <a href="./cart.html" class="panel-btn btn btn-fill">View Cart</a>
+
+
+                    <a href="{{route('view_cart')}}" class="panel-btn btn btn-fill">View Cart</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+
+</script>

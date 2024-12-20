@@ -49,7 +49,8 @@ class ProductController extends Controller
             $products->where('products.name', 'like', '%' . $name . '%');
         }
 
-        $products = $products->paginate(3);
+        $products = $products->orderBy('id', 'desc')->paginate(3);
+
 
         // Trả về AJAX nếu là request AJAX
         if ($request->ajax()) {
@@ -84,7 +85,7 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->status = $request->status;
             $product->hot = $request->hot;
-
+            $product->description = $request->description;
             // Xử lý ảnh nếu có
             if ($request->hasFile('image')) {
                 // Lưu ảnh vào thư mục 'products' trong public storage
@@ -130,7 +131,7 @@ class ProductController extends Controller
             $product->price = $request->price;
             $product->status = $request->status;
             $product->hot = $request->hot;
-
+            $product->description = $request->description;
             // Kiểm tra và xóa ảnh cũ nếu có
             if ($request->hasFile('image')) {
                 // Nếu sản phẩm có ảnh cũ, xóa ảnh cũ

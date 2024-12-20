@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'status' => 'required|in:active,inactive',
             'hot' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'description' => 'nullable|string|max:1000',  // Add validation for description
         ];
     }
 
@@ -52,6 +53,8 @@ class ProductRequest extends FormRequest
             'image.image' => 'Vui lòng chọn một hình ảnh hợp lệ.',
             'image.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png, hoặc gif.',
             'image.max' => 'Ảnh không được lớn hơn 2MB.',
+            'description.string' => 'Mô tả phải là văn bản.',
+            'description.max' => 'Mô tả không được dài hơn 1000 ký tự.',
         ];
     }
 }

@@ -56,6 +56,10 @@
                     <label class="form-label">Ảnh sản phẩm</label>
                     <input type="file" class="form-control" name="image">
                 </div>
+                <div class="col-md-6">
+                    <label class="form-label">Mô tả sản phẩm</label>
+                    <textarea class="form-control" name="description" required>{{ old('description') }}</textarea>
+                </div>
                 <div class="col-md-12 mt-3">
                     <button type="submit" class="btn btn-primary">Thêm mới</button>
                     <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>

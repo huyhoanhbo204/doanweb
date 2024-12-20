@@ -56,14 +56,18 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                </div>
-                <div class="col-md-6">
                     <label class="form-label">Ảnh sản phẩm</label>
                     <input type="file" class="form-control" name="image">
                     @if ($product->image)
                     <img src="{{ asset('storage/'.$product->image) }}" alt="Product Image" width="100px">
                     @endif
                 </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Mô tả sản phẩm</label>
+                    <textarea class="form-control" name="description" required>{{ old('description', $product->description) }}</textarea>
+                </div>
+
                 <div class="col-md-12 mt-3">
                     <button type="submit" class="btn btn-primary">Cập Nhật</button>
                     <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>

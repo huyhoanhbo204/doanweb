@@ -3,8 +3,10 @@
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
@@ -55,4 +57,18 @@ Route::get("/", [HomeController::class, 'index']);
 
 Route::resource('banners', BannerController::class);
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/fetch-products', [HomeController::class, 'fetchProductsByCategory']);
+
+
+Route::get('/product', [HomeController::class, 'product'])->name('product');
+
+
+Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
+
+
+Route::get('/product_details/{id}', [HomeController::class, 'detail'])->name('product_details');
+
+// web.php
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add_to_cart');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('view_cart');
+Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::post('/apply-discount', [CartController::class, 'applyDiscount'])->name('apply_discount');
