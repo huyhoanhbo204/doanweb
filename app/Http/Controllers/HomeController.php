@@ -6,6 +6,7 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class HomeController extends Controller
 {
@@ -22,6 +23,11 @@ class HomeController extends Controller
         $productsQuery = Product::where('products.status', 'active')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.name as category_name');
+
+        if ($request->input('name') !== '') {
+            $productsQuery->where('products.name', 'like', '%' . $request->get('name') . '%');
+        }
+
 
 
         if ($categoryId > 0) {

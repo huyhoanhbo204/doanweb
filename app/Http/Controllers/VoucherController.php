@@ -40,7 +40,7 @@ class VoucherController extends Controller
             $voucher->code = $validated['code'];
             $voucher->description = $validated['description'];
             $voucher->discountValue = $validated['discountValue'];
-            $voucher->type = $validated['type'];
+            $voucher->type = 'percent';
             $voucher->validFrom = $validated['validFrom'];
             $voucher->validTo = $validated['validTo'];
             $voucher->status = $validated['status'];
@@ -61,7 +61,7 @@ class VoucherController extends Controller
     /**
      * Display the specified resource.
      */
-    
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -88,7 +88,7 @@ class VoucherController extends Controller
             $voucher->code = $validated['code'];
             $voucher->description = $validated['description'];
             $voucher->discountValue = $validated['discountValue'];
-            $voucher->type = $validated['type'];
+            $voucher->type = 'percent';
             $voucher->validFrom = $validated['validFrom'];
             $voucher->validTo = $validated['validTo'];
             $voucher->status = $validated['status'];

@@ -70,14 +70,7 @@
                         value="{{ old('discountValue', number_format($voucher->discountValue, 0, '', '')) }}"
                         required>
                 </div>
-                {{-- Loại voucher --}}
-                <div class="col-md-6">
-                    <label class="form-label">Loại giảm giá</label>
-                    <select class="form-select" name="type" required>
-                        <option value="percent" {{ old('type', $voucher->type) == 'percent' ? 'selected' : '' }}>Phần trăm</option>
-                        <option value="fixed" {{ old('type', $voucher->type) == 'fixed' ? 'selected' : '' }}>Cố định</option>
-                    </select>
-                </div>
+
 
                 {{-- Ngày bắt đầu --}}
                 <div class="col-md-6">

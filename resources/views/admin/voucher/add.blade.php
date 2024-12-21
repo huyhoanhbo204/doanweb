@@ -69,15 +69,8 @@
                         value="{{ old('discountValue') }}"
                         required>
                 </div>
+                <input type="hidden" name="type" value="{{ old('type') == 'percent' ? 'selected' : '' }}">
 
-                {{-- Loại voucher --}}
-                <div class="col-md-6">
-                    <label class="form-label">Loại giảm giá</label>
-                    <select class="form-select" name="type" required>
-                        <option value="percent" {{ old('type') == 'percent' ? 'selected' : '' }}>Phần trăm</option>
-                        <option value="fixed" {{ old('type') == 'fixed' ? 'selected' : '' }}>Cố định</option>
-                    </select>
-                </div>
 
                 {{-- Ngày bắt đầu --}}
                 <div class="col-md-6">

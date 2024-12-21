@@ -15,37 +15,6 @@
 
     <!-- Right Side Items -->
     <div class="d-flex align-items-center gap-3">
-        <!-- Search Button -->
-        <button class="btn btn-icon" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-            <i class="fas fa-search"></i>
-        </button>
-
-        <!-- Notifications -->
-        <div class="dropdown">
-            <button class="btn btn-icon position-relative" data-bs-toggle="dropdown">
-                <i class="fas fa-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3
-                </span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end shadow-sm pt-0" style="width: 300px;">
-                <div class="p-3 border-bottom">
-                    <h6 class="mb-0">Notifications</h6>
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-shopping-bag bg-primary text-white p-2 rounded-circle"></i>
-                            <div class="ms-3">
-                                <p class="mb-1 fw-semibold">New order received</p>
-                                <small class="text-muted">Order #12345 - 5 mins ago</small>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <!-- User Profile -->
         <div class="dropdown">
             <button class="btn p-0" data-bs-toggle="dropdown">
@@ -56,14 +25,18 @@
             </button>
             <div class="dropdown-menu dropdown-menu-end shadow-sm">
                 <div class="px-3 py-2">
-                    <div class="fw-semibold">John Doe</div>
-                    <small class="text-muted">Administrator</small>
+                    <div class="fw-semibold">{{ Auth::check() ? Auth::user()->fullname : 'null' }}</div>
+                    <small class="text-muted">{{ Auth::check() ? Auth::user()->role : 'null' }}</small>
+
                 </div>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+                <a class="dropdown-item text-primary" href="{{ route('index') }}">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+
+                <!-- Logout Item -->
+                <a class="dropdown-item text-danger" href="{{ route('logout') }}">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </a>
             </div>
         </div>
     </div>

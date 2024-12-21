@@ -53,6 +53,12 @@
                     </select>
                 </div>
                 <div class="col-md-6">
+                    <label class="form-label">Giảm giá sản phẩm</label>
+                    <td>{{ number_format($product->price, 0, ',', '.') }}$</td>
+
+                    <input type="number" class="form-control" name="discount" value="{{ old('discount') }}" required>
+                </div>
+                <div class="col-md-6">
                     <label class="form-label">Ảnh sản phẩm</label>
                     <input type="file" class="form-control" name="image">
                 </div>

@@ -7,7 +7,7 @@
             <p class="section-text">
                 Satisfy your hunger at Da Nang's favorite fast food spot! From crispy fries to juicy burgers, we’ve got all your cravings covered. Fast, delicious, and served hot—order now for a tasty experience you won’t forget!
             </p>
-            <button class="btn btn-fill">Order Now</button>
+            <a href="{{route('product')}}" class="btn btn-fill">Order Now</a>
         </div>
         <figure class="cta-banner">
             <img src="{{ asset('client/assets/images/cta-banner.png') }}" width="700"
@@ -25,12 +25,11 @@
 
             <p class="section-text">Satisfy your hunger at Da Nang's favorite fast food spot! From crispy fries to juicy burgers, we’ve got all your cravings covered. Fast, delicious, and served hot—order now for a tasty experience you won’t forget!</p>
 
-            <button class="btn btn-fill">Order Now</button>
+            <a href="{{route('product')}}" class="btn btn-fill">Order Now</a>
 
         </div>
 
         <figure class="delivery-banner">
-
             <img src=" {{ asset('client/assets/images/delivery-banner-bg.png') }}"
                 class="w-100" width="700" height="602" alt="Clouds"
                 loading="lazy">
@@ -58,7 +57,7 @@
                         <p class="banner-subtitle">{{ $banner->banner_subtitle }}</p>
                         <h3 class="banner-title">{{ $banner->banner_title }}</h3>
                         <p class="banner-text">{{ $banner->banner_text }}</p>
-                        <a href="index.html" class="btn btn-fill">Order Now</a>
+                        <a href="{{route('product')}}" class="btn btn-fill">Order Now</a>
                     </div>
                 </div>
             </li>

@@ -3,11 +3,13 @@
     <td>{{ $product->id }}</td>
     <td>{{ $product->name }}</td>
     <td>{{ $product->category_name }}</td>
-    <td>{{ number_format($product->price, 0, ',', '.') }}</td>
+    <td>{{ number_format($product->price, 0, ',', '.') }}$</td>
+    <td>{{ number_format($product->discount, 0, ',', '.')}}%</td>
     <td>
         <img src="{{ asset('storage/'.$product->image) }}" alt="" width="300px" style="height:200px;">
     </td>
-
+    <td><textarea name="description" id="description" readonly>{{ $product->description }}</textarea>
+    </td>
     <td>
         @if($product->hot == 1)
         <span class="badge bg-warning text-dark">HOT</span>

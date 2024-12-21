@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -39,19 +41,24 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        $user->birthday = \Carbon\Carbon::parse($user->birthday)->format('d-m-Y');
-        return view('admin.users.edit', compact('user'));
+        $user_update = User::findOrFail($id);
+        $user_update->birthday = \Carbon\Carbon::parse($user_update->birthday)->format('d-m-Y');
+        return view('admin.users.edit', compact('user_update'));
     }
     public function update(\App\Http\Requests\Users\UserUpdateRequest $request, $id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->role = $request->input('role');
-            $user->status = $request->input('status');
-            $user->save();
-
-            return redirect()->route('user.index')->with('success', 'Cập nhật user thành công');
+            $affected = DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'role' => $request->input('role'),
+                    'status' => $request->input('status'),
+                ]);
+            if ($affected) {
+                return redirect()->route('user.index')->with('success', 'Cập nhật user thành công');
+            } else {
+                return back()->with('error', 'Không có thay đổi nào được thực hiện.');
+            }
         } catch (\Exception $e) {
             Log::error('Lỗi cập nhật user: ' . $e->getMessage());
             return back()

@@ -89,11 +89,19 @@
              success: function(response) {
                  $('#productList').empty();
                  response.products.forEach(function(product) {
-                    const discountedPrice = (product.discount > 0) 
-    ? (new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
-        .format(parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.discount) / 100)))
-    : new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })
-        .format(parseFloat(product.price));
+                     const discountedPrice = (product.discount > 0) ?
+                         (new Intl.NumberFormat('en-US', {
+                                 style: 'decimal',
+                                 minimumFractionDigits: 2,
+                                 maximumFractionDigits: 2
+                             })
+                             .format(parseFloat(product.price) - (parseFloat(product.price) * parseFloat(product.discount) / 100))) :
+                         new Intl.NumberFormat('en-US', {
+                             style: 'decimal',
+                             minimumFractionDigits: 2,
+                             maximumFractionDigits: 2
+                         })
+                         .format(parseFloat(product.price));
 
                      const url = "http://foodorder.com/storage/";
                      $('#productList').append(`

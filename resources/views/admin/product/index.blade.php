@@ -2,7 +2,7 @@
 
 @section('title', 'Quản lý sản phẩm')
 @section('link')
-{{route('products.add')}}
+{{route('products.create')}}
 @endsection
 @section('content')
 <div class="card mb-4">
@@ -69,7 +69,9 @@
                     <th>Tên sản phẩm</th>
                     <th>Tên danh mục</th>
                     <th>Giá</th>
+                    <th>Giảm giá</th>
                     <th>Hình ảnh</th>
+                    <th>Mô tả</th>
                     <th>Hot</th>
                     <th>Trạng thái</th>
                     <th>Ngày tạo</th>

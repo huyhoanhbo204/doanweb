@@ -10,7 +10,7 @@
                 Food is any substance consumed to provide nutritional support for an organism.
             </p>
 
-            <a href="product.php"><button class="btn btn-fill">Ordering your meal</button></a>
+            <a href="{{route('product')}}"><button class="btn btn-fill">Ordering your meal</button></a>
         </div>
         <figure class="hero-banner">
 
@@ -164,7 +164,7 @@
         </div>
 
         <div class="about-content">
-            <h2 class="h2 section-title">
+            <h2 class="h2 section-title" style="margin-right:300px;">
                 Burgers, Chickens and Best Pizzas <span class="span">in Town!</span>
             </h2>
 
@@ -195,7 +195,7 @@
                 </li>
             </ul>
 
-            <a href="product.php"><button class="btn btn-fill">Order Now</button></a>
+            <a href="{{route('product')}}"><button class="btn btn-fill">Order Now</button></a>
         </div>
     </div>
 </section>

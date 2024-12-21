@@ -56,12 +56,17 @@
                     </select>
                 </div>
                 <div class="col-md-6">
+                    <label class="form-label">Giảm giá sản phẩm</label>
+                    <input type="number" class="form-control" name="discount" value="{{ old('discount', $product->discount) }}" required>
+                </div>
+                <div class="col-md-6">
                     <label class="form-label">Ảnh sản phẩm</label>
                     <input type="file" class="form-control" name="image">
                     @if ($product->image)
                     <img src="{{ asset('storage/'.$product->image) }}" alt="Product Image" width="100px">
                     @endif
                 </div>
+                <div class="col-md-6"></div>
 
                 <div class="col-md-6">
                     <label class="form-label">Mô tả sản phẩm</label>

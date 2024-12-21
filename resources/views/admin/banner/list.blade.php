@@ -7,47 +7,24 @@
 @section('title', 'Quản lý Banner')
 
 @section('content')
-<div class="card mb-4">
-    <div class="card-body">
-        {{-- Hiển thị thông báo thành công --}}
-        @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        {{-- Hiển thị thông báo lỗi --}}
-        @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-
-        <form action="{{ route('banners.index') }}" method="GET">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Trạng thái</label>
-                    <select class="form-select" name="active" id="searchActive">
-                        <option value="">Tất cả</option>
-                        <option value="1" {{ request('active') == '1' ? 'selected' : '' }}>Kích hoạt</option>
-                        <option value="0" {{ request('active') == '0' ? 'selected' : '' }}>Ẩn</option>
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Tìm kiếm theo tên</label>
-                    <input type="text" class="form-control" name="name" id="searchName" value="{{ request('name') }}" placeholder="Nhập tên banner...">
-                </div>
-
-                <div class="col-md-3" style="margin-top:47px;">
-                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                </div>
-            </div>
-        </form>
+<div class="card-body">
+    {{-- Hiển thị thông báo thành công --}}
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
+    @endif
+    {{-- Hiển thị thông báo lỗi --}}
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 
+
+</div>
 <!-- Banner Items Table -->
 <div class="card">
     <div class="table-responsive">

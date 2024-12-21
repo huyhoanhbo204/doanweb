@@ -44,7 +44,7 @@
                    </a>
                </li>
                <li class="nav-item">
-                   <a href="promotions.html" class="nav-link">
+                   <a href="{{route('vouchers.index')}}" class="nav-link">
                        <i class="fas fa-percent me-2"></i>
                        <span>Mã giảm giá</span>
                    </a>
@@ -52,39 +52,8 @@
            </ul>
        </div>
 
-       <!-- Analytics Section -->
-       <div class="nav-section mb-3">
-           <small class="text-muted text-uppercase px-3 mb-2 d-block">Analytics</small>
-           <ul class="nav nav-pills flex-column">
-               <li class="nav-item">
-                   <a href="#" class="nav-link d-flex align-items-center justify-content-between"
-                       data-bs-toggle="collapse"
-                       data-bs-target="#reportsCollapse">
-                       <div>
-                           <i class="fas fa-chart-line me-2"></i>
-                           <span>Reports</span>
-                       </div>
-                       <i class="fas fa-chevron-down fs-xs"></i>
-                   </a>
-                   <div class="collapse" id="reportsCollapse">
-                       <ul class="nav nav-pills flex-column ms-4 mt-2">
-                           <li class="nav-item">
-                               <a href="#" class="nav-link sub-nav-link">
-                                   <i class="fas fa-chart-bar me-2"></i>
-                                   <span>Sales Report</span>
-                               </a>
-                           </li>
-                           <li class="nav-item">
-                               <a href="#" class="nav-link sub-nav-link">
-                                   <i class="fas fa-chart-pie me-2"></i>
-                                   <span>Analytics</span>
-                               </a>
-                           </li>
-                       </ul>
-                   </div>
-               </li>
-           </ul>
-       </div>
+
+
 
        <!-- Settings Section -->
        <div class="nav-section">
@@ -93,31 +62,37 @@
                <li class="nav-item">
                    <a href="{{ route('users.index') }}" class="nav-link {{ Request::routeIs('users.index') ? 'active' : '' }}">
                        <i class="fas fa-users me-2"></i>
-                       <span>User Management</span>
+                       <span>Quản lý người dùng</span>
                    </a>
                </li>
-               <li class="nav-item">
-                   <a href="#" class="nav-link">
-                       <i class="fas fa-cog me-2"></i>
-                       <span>System Settings</span>
-                   </a>
-               </li>
+               <div class="nav-section mb-3">
+                   <ul class="nav nav-pills flex-column">
+                       <li class="nav-item">
+                           <a href="#" class="nav-link d-flex align-items-center justify-content-between"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#reportsCollapse">
+                               <div>
+                                   <i class="fas fa-cog me-2"></i>
+                                   <span>Setting</span>
+                               </div>
+                               <i class="fas fa-chevron-down fs-xs"></i>
+                           </a>
+                           <div class="collapse" id="reportsCollapse">
+                               <ul class="nav nav-pills flex-column ms-4 mt-2">
+                                   <li class="nav-item">
+                                       <a href="{{route('banners.index')}}" class="nav-link sub-nav-link">
+                                           <i class="fas fa-image me-2"></i>
+                                           <span>Quản lý banner</span>
+                                       </a>
+                                   </li>
+                               </ul>
+
+                           </div>
+                       </li>
+                   </ul>
+               </div>
            </ul>
        </div>
    </div>
 
-   <!-- Bottom Section -->
-   <div class="border-top p-3">
-       <div class="d-flex align-items-center">
-           <div class="flex-shrink-0">
-               <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-                   alt="Profile"
-                   class="rounded-circle"
-                   style="width: 40px; height: 40px; object-fit: cover;">
-           </div>
-           <div class="flex-grow-1 ms-3">
-               <div class="fw-semibold">John Doe</div>
-               <small class="text-muted">Administrator</small>
-           </div>
-       </div>
-   </div>
+   

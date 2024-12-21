@@ -136,30 +136,40 @@
                                 <input type="number" required="" name="cvv" class="input-field">
                             </div>
                         </div>
-
-
-
                     </form>
-
-                    <form action="#" class="qr payment-tab" data-payment-tab="qr"></form>
-
-                    <form action="#" class="COD payment-tab" data-payment-tab="COD">
+                    <form action="{{ route('index') }}" method="POST" class="COD payment-tab" data-payment-tab="COD">
+                        @csrf <!-- CSRF protection -->
 
                         <div class="address">
                             <label for="address" class="label-default">Address</label>
-                            <input type="text" class="input-field" required="" placeholder="Address" name="Address">
+                            <input type="text" class="input-field" required placeholder="Address" name="address">
                         </div>
 
                         <div class="phone">
                             <label for="phone" class="label-default">Phone Number</label>
-                            <input type="number" class="input-field" required="" placeholder="Phone Number" name="Phone">
+                            <input type="number" class="input-field" required placeholder="Phone Number" name="phone">
                         </div>
 
-                        <button class="btn btn-fill">
+                        <div class="content">
+                            <label for="content" class="label-default">Content</label>
+                            <input type="text" class="input-field" required placeholder="Content" name="content">
+                        </div>
+
+                        <!-- Hidden field for discount token -->
+                        <input type="hidden" id="discount-token-hidden" name="discount_token" value="">
+
+                        <!-- Calculate total price from the cart data in the session -->
+                        <input type="hidden" name="priceTotal" value="{{ number_format(array_sum(array_map(function($product) { 
+        return $product['price'] * $product['quantity']; 
+    }, session('cart', []))), 2) }}">
+
+                        <button type="submit" class="btn btn-fill">
                             <span class="pay-amount">Submit</span>
                         </button>
-
                     </form>
+
+
+
 
                 </div>
             </div>
@@ -278,8 +288,13 @@
                     success: function(response) {
                         if (response.success) {
 
+                            // Update the price in the UI
                             $('#total-sub-card').text('$' + response.new_subtotal);
                             $('#total-price').text('$' + response.new_total);
+
+                            // Set the hidden input for discount token before form submission
+                            $('#discount-token-hidden').val(discountToken);
+
                             alert('Áp dụng thành công voucher!');
                         } else {
                             alert('Voucher không tồn tại!');
@@ -294,6 +309,9 @@
             }
         });
     });
+
+
+    document.getElementById('payment-form').submit();
 </script>
 
 @endsection

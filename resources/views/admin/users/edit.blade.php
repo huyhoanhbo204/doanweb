@@ -17,44 +17,43 @@
         </div>
         @endif
 
-        <form action="{{ route('users.update', $user->id) }}" method="POST">
+        <form action="{{ route('users.update', $user_update->id) }}" method="POST">
             @csrf
             @method('PUT')
-
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" value="{{ old('email', $user->email) }}" disabled>
+                    <input type="email" class="form-control" name="email" value="{{ old('email', $user_update->email) }}" disabled>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Họ tên</label>
-                    <input type="text" class="form-control" name="fullname" value="{{ old('fullname', $user->fullname) }}" disabled>
+                    <input type="text" class="form-control" name="fullname" value="{{ old('fullname', $user_update->fullname) }}" disabled>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Ngày sinh</label>
-                    <input type="date" class="form-control" name="birthday" value="{{ old('birthday', \Carbon\Carbon::parse($user->birthday)->format('Y-m-d')) }}" disabled>
+                    <input type="date" class="form-control" name="birthday" value="{{ old('birthday', \Carbon\Carbon::parse($user_update->birthday)->format('Y-m-d')) }}" disabled>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control" name="address" value="{{ old('address', $user->address) }}" disabled>
+                    <input type="text" class="form-control" name="address" value="{{ old('address', $user_update->address) }}" disabled>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control" name="phone" value="{{ old('phone', $user->phone) }}" disabled>
+                    <input type="text" class="form-control" name="phone" value="{{ old('phone', $user_update->phone) }}" disabled>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Vai trò</label>
                     <select class="form-select" name="role" required>
-                        <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>Người dùng</option>
-                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Quản trị viên</option>
-                        <option value="sales" {{ old('role', $user->role) == 'sales' ? 'selected' : '' }}>Cộng tác viên</option>
+                        <option value="user" {{ old('role', $user_update->role) == 'user' ? 'selected' : '' }}>Người dùng</option>
+                        <option value="admin" {{ old('role', $user_update->role) == 'admin' ? 'selected' : '' }}>Quản trị viên</option>
+                        <option value="sales" {{ old('role', $user_update->role) == 'sales' ? 'selected' : '' }}>Cộng tác viên</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Trạng thái</label>
                     <select class="form-select" name="status" required>
-                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Kích hoạt</option>
-                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Bị cấm</option>
+                        <option value="active" {{ old('status', $user_update->status) == 'active' ? 'selected' : '' }}>Kích hoạt</option>
+                        <option value="inactive" {{ old('status', $user_update->status) == 'inactive' ? 'selected' : '' }}>Bị cấm</option>
                     </select>
                 </div>
                 <div class="col-md-12 mt-3">

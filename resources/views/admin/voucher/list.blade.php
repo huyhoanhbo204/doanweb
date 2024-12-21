@@ -7,46 +7,23 @@
 @section('title', 'Quản lý Voucher')
 
 @section('content')
-<div class="card mb-4">
-    <div class="card-body">
-        {{-- Hiển thị thông báo thành công --}}
-        @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        {{-- Hiển thị thông báo lỗi --}}
-        @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        @endif
-        <form action="{{ route('vouchers.index') }}" method="GET">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label">Trạng thái</label>
-                    <select class="form-select" name="status" id="searchStatus">
-                        <option value="">Tất cả</option>
-                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Kích hoạt</option>
-                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Ẩn</option>
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Mã voucher</label>
-                    <input type="text" class="form-control" name="code" id="searchCode" value="{{ request('code') }}" placeholder="Nhập mã voucher...">
-                </div>
-
-                <div class="col-md-3" style="margin-top:47px;">
-                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                </div>
-            </div>
-        </form>
+<div class="card-body">
+    {{-- Hiển thị thông báo thành công --}}
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-</div>
+    @endif
+    {{-- Hiển thị thông báo lỗi --}}
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
 
+</div>
 <!-- Voucher Items Table -->
 <div class="card">
     <div class="table-responsive">
@@ -57,7 +34,6 @@
                     <th>Mã Voucher</th>
                     <th>Mô Tả</th>
                     <th>Giảm Giá</th>
-                    <th>Loại Giảm Giá</th>
                     <th>Ngày Bắt Đầu</th>
                     <th>Ngày Kết Thúc</th>
                     <th>Trạng Thái</th>
@@ -71,21 +47,10 @@
                     <td>{{ $voucher->code }}</td>
                     <td>{{ $voucher->description }}</td>
                     <td>
-                        @if($voucher->type == 'percent')
-                        {{ number_format($voucher->discountValue, 2, ',', '.') }}%
-                        @else
-                        {{ number_format($voucher->discountValue, 0, ',', '.') }} VND
-                        @endif
+                        {{ number_format($voucher->discountValue, 0, '', '') }}%
                     </td>
 
 
-                    <td>
-                        @if($voucher->type == 'fixed')
-                        Cố định
-                        @elseif($voucher->type == 'percent')
-                        Phần trăm
-                        @endif
-                    </td>
 
                     <td>{{ \Carbon\Carbon::parse($voucher->validFrom)->format('d/m/Y H:i') }}</td>
                     <td>{{ \Carbon\Carbon::parse($voucher->validTo)->format('d/m/Y H:i') }}</td>

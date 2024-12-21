@@ -86,6 +86,7 @@ class ProductController extends Controller
             $product->status = $request->status;
             $product->hot = $request->hot;
             $product->description = $request->description;
+            $product->discount = $request->discount;
             // Xử lý ảnh nếu có
             if ($request->hasFile('image')) {
                 // Lưu ảnh vào thư mục 'products' trong public storage
@@ -113,12 +114,17 @@ class ProductController extends Controller
         // Tìm sản phẩm theo ID hoặc trả về lỗi 404 nếu không tìm thấy
         $product = Product::findOrFail($id);
 
+        // Làm tròn discount và price về dạng số nguyên
+        $product->discount = number_format($product->discount, 0, ',', '.');
+        $product->price = number_format($product->price, 0, ',', '.');
+
         // Lấy tất cả danh mục để chọn cho sản phẩm
         $categories = Category::all();
 
         // Trả về view 'admin.product.edit' và truyền dữ liệu về sản phẩm và danh mục
         return view('admin.product.edit', compact('product', 'categories'));
     }
+
 
     // Hàm cập nhật sản phẩm
     public function update(ProductRequest $request, $id)
@@ -132,6 +138,7 @@ class ProductController extends Controller
             $product->status = $request->status;
             $product->hot = $request->hot;
             $product->description = $request->description;
+            $product->discount = $request->discount;
             // Kiểm tra và xóa ảnh cũ nếu có
             if ($request->hasFile('image')) {
                 // Nếu sản phẩm có ảnh cũ, xóa ảnh cũ

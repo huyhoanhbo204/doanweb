@@ -8,7 +8,7 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        $cart = session()->get('cart', []); // Lấy giỏ hàng từ session hoặc khởi tạo mảng rỗng
+        $cart = session()->get('cart', []);
 
         $productId = $request->input('id');
         $productName = $request->input('name');
@@ -88,32 +88,35 @@ class CartController extends Controller
 
     public function applyDiscount(Request $request)
     {
-
         $discountToken = $request->input('discount_token');
 
+        // Tìm voucher trong cơ sở dữ liệu theo mã giảm giá
+        $voucher = \App\Models\Voucher::where('code', $discountToken)
+            ->where('status', 'active') // Kiểm tra voucher có còn đang hoạt động không
+            ->where('validFrom', '<=', now()) // Kiểm tra xem voucher có còn hiệu lực không (từ ngày)
+            ->where('validTo', '>=', now()) // Kiểm tra xem voucher có còn hiệu lực không (đến ngày)
+            ->first();
 
-        $validDiscounts = [
-            'DISCOUNT10' => 0.10,
-            'DISCOUNT20' => 0.20
-        ];
+        // Kiểm tra xem voucher có tồn tại và hợp lệ không
+        if ($voucher) {
+            // Tính toán giá trị giảm giá
+            if ($voucher->type == 'percent') {
+                $discount = $voucher->discountValue / 100;
+            } else {
+                $discount = $voucher->discountValue;
+            }
 
-        //Kiểm tra token có tồn tại không 
-        if (array_key_exists($discountToken, $validDiscounts)) {
-
-            $discount = $validDiscounts[$discountToken];
-
-
+            // Tính toán tổng tiền trong giỏ hàng
             $cart = session()->get('cart', []);
             $subtotal = array_sum(array_map(function ($product) {
                 return $product['price'] * $product['quantity'];
             }, $cart));
 
-
+            // Áp dụng giảm giá
             $discountAmount = $subtotal * $discount;
             $newSubtotal = $subtotal - $discountAmount;
-            $shipping = 2.05;
+            $shipping = 2.05; // Ví dụ phí vận chuyển
             $newTotal = $newSubtotal + $shipping;
-
 
             return response()->json([
                 'success' => true,
@@ -122,7 +125,8 @@ class CartController extends Controller
             ]);
         } else {
             return response()->json([
-                'success' => false
+                'success' => false,
+                'message' => 'Mã giảm giá không hợp lệ hoặc đã hết hạn.'
             ]);
         }
     }

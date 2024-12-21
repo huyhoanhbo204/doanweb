@@ -19,7 +19,11 @@ return new class extends Migration
             $table->decimal('finalAmount', 10, 2);
             $table->foreignId('idUser')->constrained('users')->onDelete('cascade');
             $table->foreignId('idVoucher')->nullable()->constrained('vouchers')->onDelete('set null');
-            $table->timestamp('dateCreated')->useCurrent();
+            $table->enum('payment_method', ['cash', 'qr_code'])->default('cash');
+            $table->enum('payment_status', ['pending', 'paid'])->default('pending');
+
+            // Remove the dateCreated column and use timestamps instead
+            $table->timestamps(); // This automatically adds `created_at` and `updated_at`
         });
     }
 
@@ -27,4 +31,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('bills');
     }
-}; 
+};
